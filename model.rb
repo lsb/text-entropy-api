@@ -1,4 +1,4 @@
-require 'json/ext'
+require 'oj'
 require 'active_record'
 require 'andand'
 ARb = ActiveRecord::Base
@@ -27,12 +27,12 @@ def Prefetch(ids, order)
 end
 
 def Multiget(ids, order, ngrams)
-  JSON.fast_generate(ngrams.each_with_index.map {|ngram, index|
+  Oj.dump(ngrams.each_with_index.map {|ngram, index|
     if ngram.nil?
       [{"continues" => false, "word" => "", "value" => 1},
        {"continues" => true, "word" => ids[index], "value" => 0}]
     else
-      potential_lasts = JSON.parse(ngram)
+      potential_lasts = Oj.load(ngram)
 
       original_last_id = ids[index]
       original_last_id_str = original_last_id.to_s
