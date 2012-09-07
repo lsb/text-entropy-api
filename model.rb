@@ -50,3 +50,17 @@ def Multiget(ids, order, ngrams)
     end
   })
 end
+
+def Minimultiget(ids, order, ngrams)
+  Oj.dump(ngrams.each_with_index.map {|ngram, index|
+    if ngram.nil?
+      [{"continues" => true, "word" => ids[index], "value" => 0}]
+    else
+      potential_lasts = Oj.load(ngram)
+      original_last_id = ids[index]
+      original_last_id_str = original_last_id.to_s
+      total_instance_count = potential_lasts.values.map(&:to_f).inject(&:+)
+      [{"continues" => true, "word" => ids[index], "value" => potential_lasts[original_last_id_str].to_f / total_instance_count}]
+    end
+  })
+end
