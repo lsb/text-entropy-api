@@ -21,8 +21,8 @@ Order = {
 def Prefetch(ids, order)
   (0...ids.length).map {|index|
     start = index - (order-1)
-    finish = index - 1
-    start >= 0 ? Order[order].call(*ids[start..finish]) : nil
+    finish = index
+    start >= 0 ? Order[order].call(*ids[start...finish]) : nil
   }
 end
 

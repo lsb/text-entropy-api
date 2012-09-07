@@ -11,7 +11,7 @@ get('/stats') {
   expires 1000000, :public
   input_ids = params["ids"]
   input_order = params["order"]
-  pass unless input_ids =~ /^\d+(,\d+)*$/ && input_order =~ /^[2345]$/
+  pass unless input_ids =~ /^\d+(,\d+)*$/ && input_order =~ /^[12345]$/
   ids = params["ids"].split(',').map(&:to_i)
   order = params["order"].to_i
   ngrams = Prefetch(ids, order)
